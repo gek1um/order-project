@@ -2,16 +2,14 @@
 
 **Sistema web de gestión, planificación y seguimiento de proyectos** desarrollado como proyecto académico integrador. Permite administrar proyectos y actividades, planificar cronogramas, visualizar una Carta Gantt, gestionar hitos y KPI, asignar recursos, controlar costos y tramitar solicitudes de cambio.
 
-> **Estado:** aplicación funcional validada progresivamente durante el desarrollo. La regresión integral de la Fase 9.2 y la preparación de entrega todavía deben registrarse con evidencias finales. No se considera un despliegue productivo endurecido.
-
 ## Tecnologías
 
-| Capa | Tecnologías |
-| --- | --- |
-| Frontend | Vue 3, TypeScript, Vite, Vue Router, Pinia, Axios |
-| Backend | Python, Django 5.2, Django REST Framework |
-| Base de datos | PostgreSQL |
-| Autenticación | Sesiones de Django, cookies HTTP y protección CSRF |
+| Capa             | Tecnologías                                                              |
+| ---------------- | ------------------------------------------------------------------------ |
+| Frontend         | Vue 3, TypeScript, Vite, Vue Router, Pinia, Axios                        |
+| Backend          | Python, Django 5.2, Django REST Framework                                |
+| Base de datos    | PostgreSQL                                                               |
+| Autenticación    | Sesiones de Django, cookies HTTP y protección CSRF                       |
 | Desarrollo local | Windows/PowerShell, Python `.venv`, npm y PostgreSQL (local o en Docker) |
 
 ## Funcionalidades principales
@@ -27,14 +25,14 @@
 
 ### Roles
 
-| Funcionalidad | ADMIN | PROJECT_USER |
-| --- | --- | --- |
-| Ver proyectos | Todos | Solo los asignados |
-| Crear, editar o eliminar proyectos | Sí | No |
-| Trabajar en actividades y recursos | Sí | Solo en proyectos asignados |
-| Crear solicitudes de cambio | Sí | En proyectos asignados |
-| Aprobar o rechazar solicitudes | Sí | No |
-| Administrar usuarios, roles y membresías | Sí | No |
+| Funcionalidad                            | ADMIN | PROJECT_USER                |
+| ---------------------------------------- | ----- | --------------------------- |
+| Ver proyectos                            | Todos | Solo los asignados          |
+| Crear, editar o eliminar proyectos       | Sí    | No                          |
+| Trabajar en actividades y recursos       | Sí    | Solo en proyectos asignados |
+| Crear solicitudes de cambio              | Sí    | En proyectos asignados      |
+| Aprobar o rechazar solicitudes           | Sí    | No                          |
+| Administrar usuarios, roles y membresías | Sí    | No                          |
 
 Los controles del frontend ayudan a la experiencia de uso; **Django es quien aplica los permisos de seguridad**.
 
@@ -131,20 +129,20 @@ Para configuración detallada consultar [Backend](backend/README.md) y [Frontend
 
 ## Páginas principales
 
-| Ruta | Descripción |
-| --- | --- |
-| `/login` | Inicio de sesión |
-| `/projects` | Proyectos |
-| `/projects/:id` | Detalle y actividades del proyecto |
-| `/scheduling` | Programación y calendario |
-| `/gantt` | Carta Gantt independiente |
-| `/milestones` | Administración de hitos |
-| `/milestone-kpis` | KPI asociados a hitos |
-| `/resources` | Recursos y costos |
-| `/changes` | Gestión de cambios |
-| `/dashboard/project` | Seguimiento del Proyecto |
-| `/dashboard/changes` | Gestión del Cambio |
-| `/admin/users` | Administración de usuarios (solo ADMIN) |
+| Ruta                 | Descripción                             |
+| -------------------- | --------------------------------------- |
+| `/login`             | Inicio de sesión                        |
+| `/projects`          | Proyectos                               |
+| `/projects/:id`      | Detalle y actividades del proyecto      |
+| `/scheduling`        | Programación y calendario               |
+| `/gantt`             | Carta Gantt independiente               |
+| `/milestones`        | Administración de hitos                 |
+| `/milestone-kpis`    | KPI asociados a hitos                   |
+| `/resources`         | Recursos y costos                       |
+| `/changes`           | Gestión de cambios                      |
+| `/dashboard/project` | Seguimiento del Proyecto                |
+| `/dashboard/changes` | Gestión del Cambio                      |
+| `/admin/users`       | Administración de usuarios (solo ADMIN) |
 
 ## Pruebas y verificación
 
