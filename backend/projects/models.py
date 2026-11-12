@@ -113,3 +113,21 @@ class Project(models.Model):
 
     def __str__(self):
         return f"{self.code} - {self.name}"
+
+# Modelo de hitos separado para mantener este módulo legible.
+from .milestone_models import Milestone  # noqa: E402,F401
+
+# Catalogo de recursos del proyecto.
+from .resource_models import Resource  # noqa: E402,F401
+
+# Asignaciones de recursos a actividades.
+from .resource_assignment_models import TaskResourceAssignment  # noqa: E402,F401
+
+# Solicitudes de cambio y bitácora.
+from .change_models import ChangeRequest, ChangeEvent  # noqa: E402,F401
+
+# Ejecuciones trazables de solicitudes aprobadas.
+from .change_models import ChangeApplication  # noqa: E402,F401
+
+# KPI vinculados exclusivamente a hitos del proyecto.
+from .milestone_kpi_models import MilestoneKPI  # noqa: E402,F401

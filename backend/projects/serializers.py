@@ -1,10 +1,11 @@
+from core.access import ScopedRelationsMixin
 
 from rest_framework import serializers
 
 from .models import Project
 
 
-class ProjectSerializer(serializers.ModelSerializer):
+class ProjectSerializer(ScopedRelationsMixin, serializers.ModelSerializer):
     """
     Serializa proyectos y valida la coherencia
     de sus fechas, presupuesto y tareas asociadas.
@@ -101,6 +102,14 @@ class ProjectSerializer(serializers.ModelSerializer):
                         "dejarían tareas fuera de su "
                         "período de planificación."
                     )
+
+        if instance and start_date and end_date and end_date >= start_date:
+            if instance.milestones.exclude(
+                due_date__gte=start_date, due_date__lte=end_date
+            ).exists():
+                errors['end_date'] = (
+                    'Las nuevas fechas dejarían hitos fuera del período del proyecto.'
+                )
 
         if errors:
             raise serializers.ValidationError(errors)

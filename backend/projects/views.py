@@ -1,4 +1,7 @@
+from core.access import ProjectScopedViewSetMixin, IsAdministratorForProjectMutation
+from rest_framework.permissions import IsAuthenticated
 
+from django.db import transaction
 from django.db.models.deletion import ProtectedError
 
 from rest_framework import status, viewsets
@@ -6,9 +9,10 @@ from rest_framework.response import Response
 
 from .models import Project
 from .serializers import ProjectSerializer
+from scheduling.services.calendar_consistency import ScheduleConsistencyService
 
 
-class ProjectViewSet(viewsets.ModelViewSet):
+class ProjectViewSet(ProjectScopedViewSetMixin, viewsets.ModelViewSet):
     """
     API REST para administración de proyectos.
 
@@ -22,6 +26,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+    permission_classes = [IsAuthenticated, IsAdministratorForProjectMutation]
 
     def get_queryset(self):
         """
@@ -54,6 +59,26 @@ class ProjectViewSet(viewsets.ModelViewSet):
             )
 
         return queryset
+
+    def perform_update(self, serializer):
+        """Protege las fechas del proyecto con bloqueo y auditoría transaccional."""
+        with transaction.atomic():
+            project = Project.objects.select_for_update().get(
+                pk=serializer.instance.pk
+            )
+            # Revalidar dentro del bloqueo: protege reglas del serializer
+            # frente a cambios en el estado del proyecto.
+            locked_serializer = self.get_serializer(
+                project,
+                data=serializer.initial_data,
+                partial=serializer.partial,
+            )
+            locked_serializer.is_valid(raise_exception=True)
+            before = ScheduleConsistencyService.capture(project.pk)
+            updated = locked_serializer.save()
+            ScheduleConsistencyService.validate_no_new_errors(
+                updated.pk, before
+            )
 
     def destroy(self, request, *args, **kwargs):
         """

@@ -15,4 +15,10 @@ urlpatterns = [
 
     # Tasks API
     path("api/", include("tasks.urls")),
+
+    # Scheduling API
+    path(
+        "api/scheduling/",
+        include("scheduling.urls"),
+    ),
 ]

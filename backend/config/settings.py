@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     # Local applications
     "core",
     "projects",
-    "tasks"
+    "tasks",
+    "scheduling"
 ]
 
 
@@ -182,12 +183,23 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
 ]
 
+# Permite que Vue envíe la cookie de sesión mediante Axios withCredentials.
+CORS_ALLOW_CREDENTIALS = True
+
+# Django verifica Origin en POST/PATCH/DELETE con cookie de sesión.
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 
 # --------------------------------------------------
 # DJANGO REST FRAMEWORK
 # --------------------------------------------------
 
 REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework.authentication.SessionAuthentication"],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",

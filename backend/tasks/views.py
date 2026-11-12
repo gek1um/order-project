@@ -1,3 +1,4 @@
+from core.access import ProjectScopedViewSetMixin
 
 from django.db.models import Q
 
@@ -8,7 +9,7 @@ from .models import Task
 from .serializers import TaskSerializer
 
 
-class TaskViewSet(viewsets.ModelViewSet):
+class TaskViewSet(ProjectScopedViewSetMixin, viewsets.ModelViewSet):
     """
     API REST de administración de tareas.
 

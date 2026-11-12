@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 
 from datetime import date
 from decimal import Decimal
@@ -8,12 +9,17 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from projects.models import Project
-from .models import Task
+from tasks.models import Task
 
 
 class TaskAPITests(APITestCase):
 
     def setUp(self):
+        # Fase 8.1.3: el test antiguo comprueba reglas de negocio, no acceso anónimo.
+        # Usa ADMIN para conservar sus premisas y probar las reglas originales.
+        auth_user = get_user_model().objects.create_superuser(
+            username='test_admin_813', email='test813@example.test', password='SafePass123!')
+        self.client.force_authenticate(user=auth_user)
         self.project = Project.objects.create(
             code="PRJ-TEST-001",
             name="Proyecto de pruebas",
